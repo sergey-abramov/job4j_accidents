@@ -27,29 +27,9 @@
     </nav>
 </div>
 <div class="row mb-3"></div>
-<div class="container">
-    <div class="row">
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Имя</th>
-                <th scope="col">Описание</th>
-                <th scope="col">Адрес</th>
-                <th scope="col"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="accident : ${accidents}">
-                <td th:text="${accident.id}" />
-                <td th:text="${accident.name}" />
-                <td th:text="${accident.text}" />
-                <td th:text="${accident.address}" />
-                <td><a th:href="@{/editAccident/{id}(id=${accident.id})}"
-                       class="btn btn-primary me-md-2" type="button">Редактировать</a></td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="container">
+        <h3 class="mt-3">Произошла ошибка</h3>
+        <p class="text-danger" th:text="${message}"></p>
     </div>
 </div>
 </body>
