@@ -25,5 +25,28 @@
         </div>
     </nav>
 </div>
+<div class="row mb-3"></div>
+<div class="container">
+    <div class="row">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Имя</th>
+                <th scope="col">Описание</th>
+                <th scope="col">Адрес</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="accident : ${accidents}">
+                <td th:text="${accident.id}" />
+                <td th:text="${accident.name}" />
+                <td th:text="${accident.text}" />
+                <td th:text="${accident.address}" />
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 </body>
 </html>
