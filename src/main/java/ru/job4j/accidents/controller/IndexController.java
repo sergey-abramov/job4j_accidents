@@ -9,6 +9,7 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(Model model) {
+        model.addAttribute("user", "Petr Arsentev");
         return "index";
     }
 }
