@@ -3,11 +3,9 @@ package ru.job4j.accidents.repository;
 import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.model.AccidentType;
+import ru.job4j.accidents.model.Rule;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -22,9 +20,9 @@ public class AccidentMem implements AccidentStore {
             new AccidentType(1, "Машина и человек"), new AccidentType(2, "Машина и велосипед"));
 
     public AccidentMem() {
-        add(new Accident(1, "Number 1", "test", "Moscow", types.get(0)));
-        add(new Accident(1, "Number 2", "test", "Moscow", types.get(1)));
-        add(new Accident(1, "Number 2", "test", "Moscow", types.get(2)));
+        add(new Accident(1, "Number 1", "test", "Moscow", types.get(0), Set.of()));
+        add(new Accident(1, "Number 2", "test", "Moscow", types.get(1), Set.of()));
+        add(new Accident(1, "Number 2", "test", "Moscow", types.get(2), Set.of()));
     }
 
     @Override
@@ -44,7 +42,7 @@ public class AccidentMem implements AccidentStore {
                 (id, oldAccident) -> new Accident(
                         accident.getId(), accident.getName(),
                         accident.getText(), accident.getAddress(),
-                        accident.getType())) != null;
+                        accident.getType(), accident.getRules())) != null;
     }
 
     @Override

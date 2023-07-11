@@ -6,9 +6,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.model.AccidentType;
+import ru.job4j.accidents.model.Rule;
 import ru.job4j.accidents.service.AccidentService;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Controller
 @AllArgsConstructor
@@ -19,14 +23,25 @@ public class AccidentController {
     private final List<AccidentType> types = List.of(new AccidentType(0, "Две машины"),
             new AccidentType(1, "Машина и человек"), new AccidentType(2, "Машина и велосипед"));
 
+    private final List<Rule> rules = List.of(
+            new Rule(1, "Статья. 1"),
+            new Rule(2, "Статья. 2"),
+            new Rule(3, "Статья. 3")
+    );
+
     @GetMapping("/addAccident")
     public String viewCreateAccident(Model model) {
         model.addAttribute("types", types);
+        model.addAttribute("rules", rules);
         return "createAccident";
     }
 
     @PostMapping("/saveAccident")
-    public String save(@ModelAttribute Accident accident, @RequestParam("type.id") int typeId) {
+    public String save(@ModelAttribute Accident accident, @RequestParam("type.id") int typeId,
+                       @RequestParam("rIds") int[] ids) {
+        for (Integer i : ids) {
+            accident.setRules(Set.of(rules.get(i)));
+        }
         accident.setType(types.get(typeId));
         service.add(accident);
         return "redirect:/";
@@ -38,6 +53,7 @@ public class AccidentController {
         if (optionalAccident.isPresent()) {
             model.addAttribute("accident", optionalAccident.get());
             model.addAttribute("types", types);
+            model.addAttribute("rules", rules);
             return "editAccident";
         }
         model.addAttribute("message", "Страница не найдена");
@@ -45,7 +61,11 @@ public class AccidentController {
     }
 
     @PostMapping("/updateAccident")
-    public String update(@ModelAttribute Accident accident, @RequestParam("type.id") int typeId) {
+    public String update(@ModelAttribute Accident accident, @RequestParam("type.id") int typeId,
+                         @RequestParam("rIds") int[] ids) {
+        for (Integer i : ids) {
+            accident.setRules(Set.of(rules.get(i)));
+        }
         accident.setType(types.get(typeId));
         service.update(accident);
         return "redirect:/";
