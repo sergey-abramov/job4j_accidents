@@ -2,8 +2,10 @@ package ru.job4j.accidents.repository;
 
 import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.Accident;
+import ru.job4j.accidents.model.AccidentType;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,10 +18,13 @@ public class AccidentMem implements AccidentStore {
 
     private final Map<Integer, Accident> repository = new ConcurrentHashMap<>();
 
+    private final List<AccidentType> types = List.of(new AccidentType(0, "Две машины"),
+            new AccidentType(1, "Машина и человек"), new AccidentType(2, "Машина и велосипед"));
+
     public AccidentMem() {
-        add(new Accident(1, "Number 1", "test", "Moscow"));
-        add(new Accident(1, "Number 2", "test", "Moscow"));
-        add(new Accident(1, "Number 2", "test", "Moscow"));
+        add(new Accident(1, "Number 1", "test", "Moscow", types.get(0)));
+        add(new Accident(1, "Number 2", "test", "Moscow", types.get(1)));
+        add(new Accident(1, "Number 2", "test", "Moscow", types.get(2)));
     }
 
     @Override
@@ -38,7 +43,8 @@ public class AccidentMem implements AccidentStore {
         return repository.computeIfPresent(accident.getId(),
                 (id, oldAccident) -> new Accident(
                         accident.getId(), accident.getName(),
-                        accident.getText(), accident.getAddress())) != null;
+                        accident.getText(), accident.getAddress(),
+                        accident.getType())) != null;
     }
 
     @Override
