@@ -35,16 +35,16 @@
                 <form class="mt-3" th:action="@{/updateAccident}" method="POST" th:object="${accident}" enctype="multipart/form-data">
                     <input type="hidden" name="id" th:field="*{id}">
                     <div class="form-group">
-                        <label for="name">Имя</label>
-                        <input type="text" class="form-control" name="name" id="name">
+                        <label for="name" class="form-label">Имя</label>
+                        <textarea class="form-control" id="name" name="name" th:text="*{name}"></textarea>
                     </div>
                     <div class="mb-3 text-wrap">
                         <label for="text" class="form-label"><b>Описание</b></label>
-                        <textarea class="form-control" id="text" name="text" rows="6" placeholder="Описание"></textarea>
+                        <textarea class="form-control" id="text" name="text" rows="6" th:text="*{text}"></textarea>
                     </div>
                     <div class="mb-3 text-wrap">
                         <label for="address" class="form-label"><b>Адрес</b></label>
-                        <textarea class="form-control" id="address" name="address" rows="2" placeholder="Адрес"></textarea>
+                        <textarea class="form-control" id="address" name="address" rows="2" th:text="*{address}"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary mt-3">Сохранить</button>
                 </form>
