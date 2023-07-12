@@ -16,8 +16,8 @@ public class AccidentService implements ServiceInterface<Accident> {
     private final AccidentStore store;
 
     @Override
-    public Accident add(Accident model) {
-        return store.add(model);
+    public Accident add(Accident model, int[] rIds) {
+        return store.add(model, rIds);
     }
 
     @Override
@@ -26,8 +26,8 @@ public class AccidentService implements ServiceInterface<Accident> {
     }
 
     @Override
-    public boolean update(Accident model) {
-        return store.update(model);
+    public boolean update(Accident model, int[] rIds) {
+        return store.update(model, rIds);
     }
 
     @Override

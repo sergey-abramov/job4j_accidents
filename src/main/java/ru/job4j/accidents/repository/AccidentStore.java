@@ -7,11 +7,11 @@ import java.util.Optional;
 
 public interface AccidentStore {
 
-    Accident add(Accident accident);
+    Accident add(Accident accident, int[] rIds);
 
     boolean delete(int id);
 
-    boolean update(Accident accident);
+    boolean update(Accident accident, int[] rIds);
 
     Collection<Accident> findALL();
 
