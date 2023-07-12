@@ -7,11 +7,11 @@ import java.util.Optional;
 
 public interface ServiceInterface<T> {
 
-    T add(T model);
+    T add(T model, int[] rIds);
 
     boolean delete(int id);
 
-    boolean update(T model);
+    boolean update(T model, int[] rIds);
 
     Collection<T> findALL();
 
