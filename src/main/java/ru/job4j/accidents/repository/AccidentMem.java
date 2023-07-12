@@ -9,7 +9,6 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Repository
 public class AccidentMem implements AccidentStore {
 
     private final AtomicInteger nextId = new AtomicInteger(0);
@@ -20,13 +19,13 @@ public class AccidentMem implements AccidentStore {
             new AccidentType(1, "Машина и человек"), new AccidentType(2, "Машина и велосипед"));
 
     public AccidentMem() {
-        add(new Accident(1, "Number 1", "test", "Moscow", types.get(0), Set.of()));
-        add(new Accident(1, "Number 2", "test", "Moscow", types.get(1), Set.of()));
-        add(new Accident(1, "Number 2", "test", "Moscow", types.get(2), Set.of()));
+        add(new Accident(1, "Number 1", "test", "Moscow", types.get(0), Set.of()), new int[]{1, 2});
+        add(new Accident(1, "Number 2", "test", "Moscow", types.get(1), Set.of()), new int[]{2});
+        add(new Accident(1, "Number 2", "test", "Moscow", types.get(2), Set.of()), new int[]{3});
     }
 
     @Override
-    public Accident add(Accident accident) {
+    public Accident add(Accident accident, int[] rIds) {
         accident.setId(nextId.incrementAndGet());
         return repository.put(accident.getId(), accident);
     }
@@ -37,7 +36,7 @@ public class AccidentMem implements AccidentStore {
     }
 
     @Override
-    public boolean update(Accident accident) {
+    public boolean update(Accident accident, int[] rIds) {
         return repository.computeIfPresent(accident.getId(),
                 (id, oldAccident) -> new Accident(
                         accident.getId(), accident.getName(),
