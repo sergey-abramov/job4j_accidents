@@ -1,15 +1,17 @@
 package ru.job4j.accidents.repository;
 
+import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.AccidentType;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class AccidentTypeMemStore implements AccidentTypeStore {
 
-    private final List<AccidentType> types = List.of(new AccidentType(0, "Две машины"),
-            new AccidentType(1, "Машина и человек"), new AccidentType(2, "Машина и велосипед"));
+    private final Map<Integer, AccidentType> types = Map.of(1, new AccidentType(1, "Две машины"),
+            2, new AccidentType(2, "Машина и человек"),
+            3, new AccidentType(3, "Машина и велосипед"));
 
     @Override
     public Optional<AccidentType> findById(int id) {
@@ -18,6 +20,6 @@ public class AccidentTypeMemStore implements AccidentTypeStore {
 
     @Override
     public Collection<AccidentType> findAll() {
-        return types;
+        return types.values();
     }
 }
