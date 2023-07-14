@@ -8,7 +8,6 @@ import ru.job4j.accidents.model.Accident;
 import java.util.Collection;
 import java.util.Optional;
 
-@Repository
 @AllArgsConstructor
 public class AccidentJdbcTemplate {
 

@@ -10,7 +10,6 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Repository
 @AllArgsConstructor
 public class RuleJdbcStore implements RuleStore {
 

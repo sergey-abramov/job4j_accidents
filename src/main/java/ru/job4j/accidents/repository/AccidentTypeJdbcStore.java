@@ -9,7 +9,6 @@ import ru.job4j.accidents.model.AccidentType;
 import java.util.Collection;
 import java.util.Optional;
 
-@Repository
 @AllArgsConstructor
 public class AccidentTypeJdbcStore implements AccidentTypeStore {
 
