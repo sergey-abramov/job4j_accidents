@@ -11,11 +11,10 @@ import java.util.Optional;
 
 @Repository
 @AllArgsConstructor
-public class AccidentTypeHbmStore implements AccidentTypeStore {
+public class AccidentTypeHbmStore {
 
     private final SessionFactory sf;
 
-    @Override
     public Optional<AccidentType> findById(int id) {
         try (Session session = sf.openSession()) {
             return session.createQuery("from AccidentType where id = :aId", AccidentType.class)
@@ -24,7 +23,6 @@ public class AccidentTypeHbmStore implements AccidentTypeStore {
         }
     }
 
-    @Override
     public Collection<AccidentType> findAll() {
         try (Session session = sf.openSession()) {
             return session.createQuery("from AccidentType", AccidentType.class)

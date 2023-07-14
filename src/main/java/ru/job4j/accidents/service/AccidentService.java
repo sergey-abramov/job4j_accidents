@@ -4,35 +4,38 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.repository.AccidentMem;
+import ru.job4j.accidents.repository.AccidentRepository;
 import ru.job4j.accidents.repository.AccidentStore;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class AccidentService implements ServiceInterface<Accident> {
 
-    private final AccidentStore store;
+    private final AccidentRepository store;
 
     @Override
     public Accident add(Accident model, int[] rIds) {
-        return store.add(model, rIds);
+        return store.save(model);
     }
 
     @Override
-    public boolean delete(int id) {
-        return store.delete(id);
+    public void delete(int id) {
+        store.deleteById(id);
     }
 
     @Override
     public boolean update(Accident model, int[] rIds) {
-        return store.update(model, rIds);
+        var a1 = findById(model.getId());
+        return !store.save(model).equals(a1.get());
     }
 
     @Override
-    public Collection<Accident> findALL() {
-        return store.findALL();
+    public Iterable<Accident> findALL() {
+        return store.findAll();
     }
 
     @Override

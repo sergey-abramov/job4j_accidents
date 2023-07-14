@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
-public class RuleJdbcStore implements RuleStore {
+public class RuleJdbcStore {
 
     private final JdbcTemplate jdbc;
 
@@ -22,7 +22,6 @@ public class RuleJdbcStore implements RuleStore {
        return rule;
     });
 
-    @Override
     public Set<Rule> findAllByAccident(int id) {
         return jdbc.query("""
                 select r.id, name from rules r
@@ -31,7 +30,6 @@ public class RuleJdbcStore implements RuleStore {
                 """, mapper, id).stream().collect(Collectors.toUnmodifiableSet());
     }
 
-    @Override
     public Collection<Rule> findAll() {
         return jdbc.query("select * from rules", mapper);
     }

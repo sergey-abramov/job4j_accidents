@@ -11,18 +11,16 @@ import java.util.Set;
 
 @Repository
 @AllArgsConstructor
-public class RuleHbmStore implements RuleStore {
+public class RuleHbmStore {
 
     private final SessionFactory sf;
 
-    @Override
     public Collection<Rule> findAll() {
         try (Session session = sf.openSession()) {
             return session.createQuery("from Rule", Rule.class).list();
         }
     }
 
-    @Override
     public Set<Rule> findAllByAccident(int id) {
         return null;
     }

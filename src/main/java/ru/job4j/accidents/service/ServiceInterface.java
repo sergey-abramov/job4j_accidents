@@ -9,11 +9,11 @@ public interface ServiceInterface<T> {
 
     T add(T model, int[] rIds);
 
-    boolean delete(int id);
+    void delete(int id);
 
     boolean update(T model, int[] rIds);
 
-    Collection<T> findALL();
+    Iterable<T> findALL();
 
     Optional<T> findById(int id);
 }

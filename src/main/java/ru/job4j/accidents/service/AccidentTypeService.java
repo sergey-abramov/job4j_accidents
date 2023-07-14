@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.AccidentType;
 import ru.job4j.accidents.repository.AccidentTypeStore;
 
-import java.util.Collection;
 import java.util.Optional;
 
 @Service
@@ -14,7 +13,7 @@ public class AccidentTypeService {
 
     private final AccidentTypeStore store;
 
-    public Collection<AccidentType> findAll() {
+    public Iterable<AccidentType> findAll() {
         return store.findAll();
     }
 
