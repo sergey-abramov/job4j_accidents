@@ -11,7 +11,7 @@ public interface ServiceInterface<T> {
 
     void delete(int id);
 
-    boolean update(T model, int[] rIds);
+    void update(T model, int[] rIds);
 
     Iterable<T> findALL();
 

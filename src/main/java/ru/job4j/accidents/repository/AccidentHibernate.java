@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.Accident;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -14,52 +15,33 @@ import java.util.Set;
 @AllArgsConstructor
 public class AccidentHibernate implements AccidentStore {
 
-    private final SessionFactory sf;
+    private final CrudRepository repository;
 
     @Override
-    public Accident add(Accident accident, int[] rIds) {
-        try (Session session = sf.openSession()) {
-            accident.setRules(Set.of());
-            session.save(accident);
-            return accident;
-        }
+    public Accident add(Accident accident) {
+        repository.run(session -> session.persist(accident));
+        return accident;
     }
 
     @Override
     public boolean delete(int id) {
-        boolean rsl;
-        try (Session session = sf.openSession()) {
-            rsl = session.createQuery("delete from Accident where id = :aId")
-                    .setParameter("aId", id)
-                    .executeUpdate() > 0;
-        }
-        return rsl;
+        return repository.booleanRun("delete from Accident where id = :aId", Map.of("aId", id));
     }
 
     @Override
-    public boolean update(Accident accident, int[] rIds) {
-        var a1 = findById(accident.getId());
-        boolean rsl;
-        try (Session session = sf.openSession()) {
-            rsl = !a1.get().equals(session.merge(accident));
-        }
-        return rsl;
+    public void update(Accident accident) {
+        repository.run(session -> session.merge(accident));
     }
 
     @Override
     public Collection<Accident> findALL() {
-        try (Session session = sf.openSession()) {
-           return session.createQuery("from Accident", Accident.class)
-                    .list();
-        }
+        return repository.query("from Accident", Accident.class);
     }
 
     @Override
     public Optional<Accident> findById(int id) {
-        try (Session session = sf.openSession()) {
-            return session.createQuery("from Accident where id = :aId", Accident.class)
-                    .setParameter("aId", id)
-                    .uniqueResultOptional();
-        }
+        return repository.optional("from Accident where id = :aId", Accident.class,
+                Map.of("aId", id));
+
     }
 }
