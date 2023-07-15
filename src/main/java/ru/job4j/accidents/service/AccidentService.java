@@ -46,7 +46,7 @@ public class AccidentService implements ServiceInterface<Accident> {
     }
 
     @Override
-    public Iterable<Accident> findALL() {
+    public List<Accident> findALL() {
         return store.findAll();
     }
 
