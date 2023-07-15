@@ -18,8 +18,4 @@ public class RuleMemStore {
     public Collection<Rule> findAll() {
         return rules.values();
     }
-
-    public Set<Rule> findAllByAccident(Accident accident) {
-        return accident.getRules();
-    }
 }
