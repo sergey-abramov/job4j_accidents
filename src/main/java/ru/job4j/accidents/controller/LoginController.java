@@ -1,34 +1,37 @@
 package ru.job4j.accidents.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import ru.job4j.accidents.model.User;
+import ru.job4j.accidents.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
+@AllArgsConstructor
 public class LoginController {
 
+    private final UserService users;
+
     @GetMapping("/login")
-    public String loginPage(@RequestParam(value = "error", required = false) String error,
-                            @RequestParam(value = "logout", required = false) String logout,
-                            Model model) {
-        String errorMessage = null;
-        if (error != null) {
-            errorMessage = "Username or Password is incorrect !!";
-        }
-        if (logout != null) {
-            errorMessage = "You have been successfully logged out !!";
-        }
-        model.addAttribute("errorMessage", errorMessage);
+    public String getLoginPage() {
         return "login";
+    }
+
+    @PostMapping("/login")
+    public String log(@ModelAttribute User user, Model model) {
+        var userOptional = users.findByEmailAndPassword(user.getUsername(), user.getPassword());
+        if (userOptional.isEmpty()) {
+            model.addAttribute("error", "Почта или пароль введены неверно");
+            return "redirect:/login";
+        }
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
