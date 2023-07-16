@@ -9,14 +9,10 @@ import ru.job4j.accidents.model.AccidentType;
 import ru.job4j.accidents.model.Rule;
 
 import java.util.*;
-import java.util.stream.Collectors;
-
 @AllArgsConstructor
 public class AccidentJdbcTemplate {
 
     private final JdbcTemplate jdbc;
-
-    private final AccidentTypeJdbcStore typeStore;
 
     private final ResultSetExtractor<Map<Integer, Accident>> extractor = (resultSet) -> {
         Map<Integer, Accident> result = new HashMap<>();
@@ -40,22 +36,19 @@ public class AccidentJdbcTemplate {
         return result;
     };
 
-    private final RowMapper<Rule> ruleMapper = ((rs, rowNum) -> {
-        Rule rule = new Rule();
-        rule.setId(rs.getInt("id"));
-        rule.setName(rs.getString("name"));
-        return rule;
-    });
-
     private RowMapper<Accident> accidentRowMapper() {
         return (rs, rowNum) -> {
             Accident accident = new Accident();
-            accident.setId(rs.getInt("id"));
-            accident.setName(rs.getString("name"));
-            accident.setText(rs.getString("description"));
-            accident.setAddress(rs.getString("address"));
-            var type = typeStore.findById(rs.getInt("type_id"));
-            type.ifPresent(accident::setType);
+            accident.setId(rs.getInt("aId"));
+            accident.setName(rs.getString("aName"));
+            accident.setText(rs.getString("aDescription"));
+            accident.setAddress(rs.getString("aAddress"));
+            accident.setType(new AccidentType(
+                    rs.getInt("tId"),
+                    rs.getString("tName")));
+            accident.setRules(Set.of(new Rule(
+                    rs.getInt("rId"),
+                    rs.getString("rName"))));
             return accident;
         };
     }
@@ -106,16 +99,16 @@ public class AccidentJdbcTemplate {
     }
 
     public Optional<Accident> findById(int id) {
-        var accident = jdbc
-                .queryForObject("select * from accidents where id = ?",
-                            accidentRowMapper(), id);
-        if (accident != null) {
-            accident.setRules(jdbc.query("""
-                    select r.id, name from rules r
-                    join rules_accidents ra on r.id = ra.rule_id
-                    where accident_id = ?
-                    """, ruleMapper, id).stream().collect(Collectors.toUnmodifiableSet()));
-        }
+        var accident = jdbc.queryForObject("""
+                        select a.id aId, a.name aName, a.description aDescription,
+                        a.address aAddress,t.id tId, t.name tName,
+                        r.id rId, r.name rName from accidents a
+                        join types t on a.type_id = t.id
+                        join rules_accidents ra on a.id = ra.accident_id
+                        join rules r on r.id = ra.rule_id
+                        where a.id = ?
+                        """,
+                accidentRowMapper(), id);
         return Optional.ofNullable(accident);
     }
 }
