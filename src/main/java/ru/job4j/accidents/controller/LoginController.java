@@ -24,16 +24,6 @@ public class LoginController {
         return "login";
     }
 
-    @PostMapping("/login")
-    public String log(@ModelAttribute User user, Model model) {
-        var userOptional = users.findByEmailAndPassword(user.getUsername(), user.getPassword());
-        if (userOptional.isEmpty()) {
-            model.addAttribute("error", "Почта или пароль введены неверно");
-            return "redirect:/login";
-        }
-        return "redirect:/";
-    }
-
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
