@@ -54,7 +54,7 @@
                 <td th:text="${accident.text}" />
                 <td th:text="${accident.address}" />
                 <td th:text="${accident.type.name}" />
-                <td><a th:href="@{|/editAccident?id=${accident.id}|}"
+                <td><a th:href="@{/editAccident/{id}(id=${post.id})}"
                        class="btn btn-primary me-md-2" type="button">Редактировать</a></td>
             </tr>
             </tbody>

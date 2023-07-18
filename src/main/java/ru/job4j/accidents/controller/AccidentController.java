@@ -46,8 +46,8 @@ public class AccidentController {
         return "redirect:/";
     }
 
-    @GetMapping("/editAccident")
-    public String viewEditAccident(@RequestParam("id") int id, Model model) {
+    @GetMapping("/editAccident/{id}")
+    public String viewEditAccident(@PathVariable("id") int id, Model model) {
         var optionalAccident = service.findById(id);
         if (optionalAccident.isPresent()) {
             model.addAttribute("accident", optionalAccident.get());
