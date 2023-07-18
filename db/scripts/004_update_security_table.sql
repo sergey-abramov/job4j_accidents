@@ -1,5 +1,3 @@
-drop table authorities;
-drop table users;
 
 CREATE TABLE authorities (
   id serial primary key,
