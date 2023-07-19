@@ -23,16 +23,14 @@ public class RegControl {
 
     @PostMapping("/reg")
     public String regSave(@ModelAttribute User user, Model model) {
-        try {
-            user.setEnabled(true);
-            user.setPassword(encoder.encode(user.getPassword()));
-            user.setAuthority(authorities.findByAuthority("ROLE_USER"));
-            users.save(user);
+        user.setEnabled(true);
+        user.setPassword(encoder.encode(user.getPassword()));
+        user.setAuthority(authorities.findByAuthority("ROLE_USER"));
+        if (users.save(user).isPresent()) {
             return "redirect:/login";
-        } catch (ConstraintViolationException e) {
-            model.addAttribute("message", "Пользователь с таким именем существует");
-            return "404";
         }
+        model.addAttribute("message", "Пользователь с таким именем существует");
+        return "404";
     }
 
     @GetMapping("/reg")
