@@ -30,13 +30,6 @@ public class HbmConfig {
         return sessionFactory;
     }
 
-    @Bean(destroyMethod = "close")
-    public SessionFactory sf() {
-        final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-                .configure().build();
-        return new MetadataSources(registry).buildMetadata().buildSessionFactory();
-    }
-
     @Bean
     public PlatformTransactionManager htx(SessionFactory sf) {
         HibernateTransactionManager tx = new HibernateTransactionManager();
