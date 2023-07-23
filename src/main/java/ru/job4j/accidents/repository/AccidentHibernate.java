@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-@Repository
 @AllArgsConstructor
 public class AccidentHibernate implements AccidentStore {
 

@@ -7,7 +7,6 @@ import ru.job4j.accidents.model.Rule;
 import java.util.Collection;
 import java.util.List;
 
-@Repository
 @AllArgsConstructor
 public class RuleHbmStore {
 

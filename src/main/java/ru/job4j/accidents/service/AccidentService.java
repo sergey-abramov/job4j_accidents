@@ -4,12 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.model.Rule;
-import ru.job4j.accidents.repository.AccidentMem;
-import ru.job4j.accidents.repository.AccidentRepository;
-import ru.job4j.accidents.repository.AccidentStore;
-import ru.job4j.accidents.repository.RuleHbmStore;
+import ru.job4j.accidents.repository.*;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -20,7 +16,7 @@ public class AccidentService implements ServiceInterface<Accident> {
 
     private final AccidentRepository store;
 
-    private final RuleHbmStore ruleStore;
+    private final RuleStore ruleStore;
 
     @Override
     public Accident add(Accident model, int[] rIds) {
