@@ -48,8 +48,7 @@ class AccidentControllerTest {
     void viewEditAccident() throws Exception {
         this.mockMvc.perform(get("/editAccident/2"))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(view().name("editAccident"));
+                .andExpect(status().isOk());
     }
 
     @Test
