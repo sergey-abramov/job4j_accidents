@@ -42,7 +42,11 @@ public class AccidentController {
             return "404";
         }
         accident.setType(type.get());
-        service.add(accident, rIds);
+        List<Rule> rules = ruleService.findAll();
+        for (Integer i : rIds) {
+            accident.setRules(Set.of(rules.get(i)));
+        }
+        service.add(accident);
         return "redirect:/";
     }
 
@@ -68,7 +72,11 @@ public class AccidentController {
             return "404";
         }
         accident.setType(type.get());
-        service.update(accident, rIds);
+        List<Rule> rules = ruleService.findAll();
+        for (Integer i : rIds) {
+            accident.setRules(Set.of(rules.get(i)));
+        }
+        service.update(accident);
         return "redirect:/";
     }
 }

@@ -19,11 +19,7 @@ public class AccidentService implements ServiceInterface<Accident> {
     private final RuleStore ruleStore;
 
     @Override
-    public Accident add(Accident model, int[] rIds) {
-        List<Rule> listRul = ruleStore.findAll();
-        for (Integer i : rIds) {
-            model.setRules(Set.of(listRul.get(i)));
-        }
+    public Accident add(Accident model) {
         return store.save(model);
     }
 
@@ -33,11 +29,7 @@ public class AccidentService implements ServiceInterface<Accident> {
     }
 
     @Override
-    public void update(Accident model, int[] rIds) {
-        List<Rule> listRul = ruleStore.findAll();
-        for (Integer i : rIds) {
-            model.setRules(Set.of(listRul.get(i)));
-        }
+    public void update(Accident model) {
         store.save(model);
     }
 
