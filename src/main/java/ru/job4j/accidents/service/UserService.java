@@ -18,8 +18,9 @@ public class UserService {
         try {
             return Optional.of(repository.save(user));
         } catch (ConstraintViolationException e) {
-            return Optional.empty();
+            e.getConstraintName();
         }
+        return Optional.empty();
     }
 
     public Optional<User> findByEmailAndPassword(String username, String password) {
